@@ -1,6 +1,7 @@
 import 'package:linkfy_text/src/enum.dart';
 
-String urlRegExp = r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+';
+String urlRegExp =
+    r'^(.*?)((https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))';
 
 String hashtagRegExp = r'(#+[a-zA-Z0-9(_)]{1,})';
 
@@ -51,10 +52,10 @@ LinkType getMatchedType(String match) {
     type = LinkType.email;
   } else if (RegExp(userTagRegExp).hasMatch(match)) {
     type = LinkType.userTag;
-  }else if (RegExp(urlRegExp).hasMatch(match)) {
+  } else if (RegExp(urlRegExp).hasMatch(match)) {
     type = LinkType.url;
   } else if (RegExp(hashtagRegExp).hasMatch(match)) {
     type = LinkType.hashTag;
-  } 
+  }
   return type;
 }
