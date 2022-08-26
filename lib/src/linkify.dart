@@ -1,29 +1,31 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:linkfy_text/src/enum.dart';
 import 'package:linkfy_text/src/model/link.dart';
 import 'package:linkfy_text/src/utils/regex.dart';
 
 /// Linkify [text] containing urls, emails or hashtag
 class LinkifyText extends StatelessWidget {
-  const LinkifyText(this.text,
-      {this.textStyle,
-      this.linkStyle,
-      this.linkTypes,
-      this.onTap,
-      this.customLinkStyles,
-      this.strutStyle,
-      this.textAlign,
-      this.textDirection,
-      this.locale,
-      this.softWrap,
-      this.overflow,
-      this.textScaleFactor,
-      this.maxLines,
-      this.semanticsLabel,
-      this.textWidthBasis,
-      Key? key})
-      : super(key: key);
+  const LinkifyText(
+    this.text, {
+    this.textStyle,
+    this.linkStyle,
+    this.linkTypes,
+    this.onTap,
+    this.customLinkStyles,
+    this.strutStyle,
+    this.textAlign,
+    this.textDirection,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.semanticsLabel,
+    this.textWidthBasis,
+    this.selectable = false,
+    Key? key,
+  }) : super(key: key);
 
   /// text to be linkified
   final String text;
@@ -129,8 +131,31 @@ class LinkifyText extends StatelessWidget {
 
   final Map<LinkType, TextStyle>? customLinkStyles;
 
+  final bool? selectable;
+
   @override
   Widget build(BuildContext context) {
+    if (selectable ?? false) {
+      return SelectableText.rich(
+        _linkify(
+          text: text,
+          linkStyle: linkStyle,
+          onTap: onTap,
+          linkTypes: linkTypes,
+          customLinkStyles: customLinkStyles,
+        ),
+        key: key,
+        style: textStyle,
+        strutStyle: strutStyle,
+        textAlign: textAlign,
+        textDirection: textDirection,
+        textScaleFactor: textScaleFactor,
+        textWidthBasis: textWidthBasis,
+        semanticsLabel: semanticsLabel,
+        maxLines: maxLines,
+      );
+    }
+
     return Text.rich(
       _linkify(
           text: text,
